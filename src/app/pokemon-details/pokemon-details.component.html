@@ -1,0 +1,20 @@
+<mat-card>
+    <mat-card-header>
+        <mat-card-title>{{ pokemon.name | uppercase }}</mat-card-title>
+    </mat-card-header>
+    <img mat-card-image [src]="pokemon.image" alt="{{ pokemon.name }}">
+    <mat-tab-group>
+        <mat-tab label="Details">
+            <p>Height: {{ pokemon.height }}</p>
+            <p>Weight: {{ pokemon.weight }}</p>
+        </mat-tab>
+        <mat-tab label="Evolution">
+            <div class="evolution-chain">
+                <ng-container *ngFor="let evolution of pokemon.evolution_chain; let i = index">
+                  <img [src]="evolution.image" alt="{{ evolution.species_name }}" class="evolution-image">
+                  <span *ngIf="i < pokemon.evolution_chain.length - 1" class="material-icons evolution-arrow">arrow_forward</span>
+                </ng-container>
+              </div>
+        </mat-tab>
+    </mat-tab-group>
+</mat-card>
