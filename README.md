@@ -20,7 +20,7 @@ Before you begin, ensure you have met the following requirements:
 
 1. Clone the repository:
 ```bash
-git clone https://example.com/your-angular-pokemon-project.git
+git clone https://github.com/pradeep-kr27/pokemon-app.git
 cd your-angular-pokemon-project
 
 ## Development server
