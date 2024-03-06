@@ -1,0 +1,21 @@
+.app-container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+.logo-container {
+    background-color: rgba(255, 0, 0, 0.822);
+    text-align: center;
+    
+    img {
+        height: 4vh;
+        width: auto;
+        margin: 0 auto;
+    }
+}
+
+.content-container {
+    flex-grow: 1;
+    overflow-y: auto;
+}

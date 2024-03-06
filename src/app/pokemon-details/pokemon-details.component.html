@@ -5,16 +5,26 @@
     <img mat-card-image [src]="pokemon.image" alt="{{ pokemon.name }}">
     <mat-tab-group>
         <mat-tab label="Details">
-            <p>Height: {{ pokemon.height }}</p>
-            <p>Weight: {{ pokemon.weight }}</p>
+            <div class="pokemon-details">
+                <p>Height: {{ pokemon.height }} cm</p>
+                <p>Weight: {{ pokemon.weight }} kg</p>
+            </div>
         </mat-tab>
         <mat-tab label="Evolution">
             <div class="evolution-chain">
                 <ng-container *ngFor="let evolution of pokemon.evolution_chain; let i = index">
-                  <img [src]="evolution.image" alt="{{ evolution.species_name }}" class="evolution-image">
-                  <span *ngIf="i < pokemon.evolution_chain.length - 1" class="material-icons evolution-arrow">arrow_forward</span>
+                    <div class="evolution-item">
+                        <div class="evolution-content" [ngClass]="{'current-evolution': evolution.species_name.toLowerCase() === pokemon.name.toLowerCase()}">
+                            <img [src]="evolution.image" alt="{{ evolution.species_name }}" class="evolution-image">
+                            <p>
+                                {{ evolution.species_name | titlecase }}
+                            </p>
+                        </div>
+                        <span *ngIf="i < pokemon.evolution_chain.length - 1"
+                            class="material-icons evolution-arrow">arrow_forward</span>
+                    </div>
                 </ng-container>
-              </div>
+            </div>
         </mat-tab>
     </mat-tab-group>
 </mat-card>

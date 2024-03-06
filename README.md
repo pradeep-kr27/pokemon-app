@@ -1,19 +1,20 @@
 # PokemonApp
 
-This project is a Pokémon information platform built with Angular 17. It allows users to browse a list of Pokémon and view detailed information about each one, including their evolution chain.
+This project is a Pokemon information platform built with Angular 17. It allows users to browse a list of Pokemon and view detailed information about each one, including their evolution chain.
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.2.2.
 
 ## Features
 
-- Browse Pokémon in a grid layout.
-- View detailed information about each Pokémon, including height, weight, and evolution chain.
+- Browse Pokemon in a grid layout with pagination.
+- View detailed information about each Pokemon, including height, weight, and evolution chain.
 - Responsive design for viewing on various devices and screen sizes.
+- Pokemon logo in the navbar for easy navigation back to the Pokemon list.
 
 ## Prerequisites
 
 Before you begin, ensure you have met the following requirements:
-- Node.js installed on your machine.
+- Node.js (v14.17.0 or higher) installed.
 - Angular CLI installed (`npm install -g @angular/cli`).
 
 ## Setting Up the Project

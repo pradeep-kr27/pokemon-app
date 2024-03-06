@@ -1,18 +1,23 @@
 <div class="pokemon-grid">
-    <mat-grid-list cols="4" rowHeight="300px" [gutterSize]="'10px'">
-      <mat-grid-tile *ngFor="let pokemon of pokemons">
-        <mat-card class="pokemon-card">
-          <mat-card-header>
-            <mat-card-title>{{ pokemon.name }}</mat-card-title>
-          </mat-card-header>
-          <div class="image-container">
-            <img [src]="pokemon.image" alt="{{ pokemon.name }}">
-          </div>
-          <mat-card-actions>
-            <button mat-button [routerLink]="['/pokemon', pokemon.name]">View Details</button>
-          </mat-card-actions>
-        </mat-card>
-      </mat-grid-tile>
-    </mat-grid-list>
-  </div>
-  
+  <mat-grid-list [cols]="cols$ | async" rowHeight="15rem" [gutterSize]="'10px'">
+    <mat-grid-tile *ngFor="let pokemon of pokemons">
+      <mat-card class="pokemon-card">
+        <mat-card-header style="padding: 0px;">
+          <mat-card-title>{{ pokemon.name | titlecase}}</mat-card-title>
+        </mat-card-header>
+        <div class="image-container">
+          <img [src]="pokemon.image" alt="{{ pokemon.name }}">
+        </div>
+        <mat-card-actions>
+          <button mat-button [routerLink]="['/pokemon', pokemon.name]">View Details</button>
+        </mat-card-actions>
+      </mat-card>
+    </mat-grid-tile>
+  </mat-grid-list>
+</div>
+
+<div class="pagination-controls">
+  <button mat-button (click)="previousPage()" [disabled]="currentPage === 1">Previous</button>
+  <span>Page {{ currentPage }} of {{ getPageCount(total, limit) }}</span>
+  <button mat-button (click)="nextPage()" [disabled]="offset + limit >= total">Next</button>
+</div>

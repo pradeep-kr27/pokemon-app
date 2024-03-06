@@ -1,7 +1,5 @@
 .pokemon-grid {
-    margin: 20px;
     display: block;
-    background: linear-gradient(135deg, #a1c4fd 0%, #c2e9fb 100%);
 }
 
 .mat-grid-list {
@@ -15,6 +13,8 @@
     justify-content: center;
     height: 100%;
     box-shadow: 0 5px 5px rgba(0, 0, 0, 0.2);
+    width: 80%;
+    margin: auto;
 }
 
 .mat-card-header,
@@ -24,8 +24,8 @@
 }
 
 .image-container {
-    width: 150px;
-    height: 150px;
+    width: 10rem;
+    height: 15rem;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -39,5 +39,16 @@
 }
 
 button.mat-button {
-    margin-top: 10px;
+    margin-top: 0.625rem;
+}
+
+.pagination-controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: .3125rem;
+}
+
+.pagination-controls button {
+    margin: 0 0.625rem;
 }

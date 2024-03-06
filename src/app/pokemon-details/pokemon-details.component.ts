@@ -3,7 +3,9 @@ import { HttpClientModule } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatTabsModule } from '@angular/material/tabs';
+import { Title } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
+import { Subscription, switchMap } from 'rxjs';
 import { PokemonService } from '../services/pokemon.service';
 
 interface EvolutionChain {
@@ -36,52 +38,57 @@ export class PokemonDetailsComponent {
     weight: null,
     evolution_chain: [],
   };
+  private subscription: Subscription = new Subscription();
 
   constructor(
     private pokemonService: PokemonService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private titleService: Title
   ) { }
 
   ngOnInit() {
-    this.route.params.subscribe(params => {
-      const name = params['name'];
-      console.log('name',name)
-      this.pokemonService.getPokemonDetails(name).subscribe((detail: any) => {
-  
-        this.pokemon["image"] = detail.sprites.other.dream_world.front_default;
-        this.pokemon["height"] = detail.height;
-        this.pokemon["weight"] = detail.weight;
-        console.log('name: ', name,this.pokemon)
-        this.getEvolutionDetails(name);
-      });
-    });
-  }
-
-  public getEvolutionDetails(name: string) {
-    this.pokemonService.fetchEvolultionDetails(name).subscribe((response) => {
-      console.log('getEvolutionDetails: ', response);
-      let evoData = response.chain;
+    this.subscription.add(this.route.params.pipe(
+      switchMap(params => {
+        const name = params['name'];
+        this.titleService.setTitle(`${name.toUpperCase()} Details`);
+        this.pokemon.name = name;
+        return this.pokemonService.getPokemonDetails(name);
+      }),
+      switchMap(detail => {
+        this.pokemon.image = detail.sprites.other.dream_world.front_default;
+        this.pokemon.height = detail.height * 10; // Convert decimetres to cm
+        this.pokemon.weight = detail.weight / 10; // Convert hectograms to kg
+        return this.pokemonService.fetchEvolultionDetails(this.pokemon.name);
+      })
+    ).subscribe(response => {
       let evoChain: EvolutionChain[] = [];
+      let evoData = response.chain;
       do {
-        let evoDetails = evoData['evolution_details'][0];
-        
+        const evoDetails = evoData['evolution_details'][0];
+        const species_name = evoData.species.name;
+
         evoChain.push({
-          species_name: evoData.species.name,
-          min_level: !evoDetails ? 1 : evoDetails.min_level,
-          trigger_name: !evoDetails ? null : evoDetails.trigger.name,
-          item: !evoDetails ? null : evoDetails.item,
+          species_name: species_name,
+          min_level: evoDetails ? evoDetails.min_level : null,
+          trigger_name: evoDetails ? evoDetails.trigger.name : null,
+          item: evoDetails ? evoDetails.item : null,
           image: ''
         });
 
         evoData = evoData['evolves_to'][0];
       } while (!!evoData && evoData.hasOwnProperty('evolves_to'));
-      this.pokemon.evolution_chain= [...evoChain];
-      this.pokemon.evolution_chain.forEach((evoData)=> {
-        this.pokemonService.getPokemonDetails(evoData.species_name).subscribe((detail)=> {
-          evoData.image = detail.sprites.other.dream_world.front_default;
-          console.log('evoData',evoData)
-        })
-      })
-    })
+
+      evoChain.forEach((evo, index) => {
+        this.subscription.add(this.pokemonService.getPokemonDetails(evo.species_name).subscribe(detail => {
+          evoChain[index].image = detail.sprites.other.dream_world.front_default;
+        }));
+      });
+
+      this.pokemon.evolution_chain = evoChain;
+    }));
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 }
