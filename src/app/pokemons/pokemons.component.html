@@ -1,5 +1,5 @@
 <div class="pokemon-grid">
-  <mat-grid-list [cols]="cols$ | async" rowHeight="15rem" [gutterSize]="'10px'">
+  <mat-grid-list [cols]="cols$ | async" [gutterSize]="'10px'">
     <mat-grid-tile *ngFor="let pokemon of pokemons">
       <mat-card class="pokemon-card">
         <mat-card-header style="padding: 0px;">
