@@ -4,6 +4,11 @@ This project is a Pokemon information platform built with Angular 17. It allows 
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.2.2.
 
+## Deployment
+
+The application is currently hosted on Firebase Hosting and can be accessed at the following URL:
+[Pokemon App Live Site](https://poke-mon-info.web.app)
+
 ## Features
 
 - Browse Pokemon in a grid layout with pagination.
